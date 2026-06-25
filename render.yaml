@@ -11,5 +11,9 @@ services:
         value: llama-3.3-70b-versatile
       - key: PYTHON_VERSION
         value: "3.11"
+      - key: PIP_NO_CACHE_DIR
+        value: "1"
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: "true"
     healthCheckPath: /_stcore/health
     autoDeploy: true
