@@ -2,7 +2,7 @@ services:
   - type: web
     name: redrob-dashboard
     runtime: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python scripts/decompress.py
     startCommand: streamlit run app/streamlit_app.py --server.port $PORT --server.headless true --server.address 0.0.0.0
     envVars:
       - key: GROQ_API_KEY

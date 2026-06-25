@@ -19,6 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Decompress data file during build (not at runtime)
+RUN python scripts/decompress.py
+
 # Create necessary directories
 RUN mkdir -p data/output logs
 
