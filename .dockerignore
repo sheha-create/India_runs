@@ -1,0 +1,17 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+.env
+.env.example
+*.md
+tests/
+data/
+logs/
+*.csv
+*.json
+*.npy
+submission_metadata.yaml
+scratch_*.py
+.agents/

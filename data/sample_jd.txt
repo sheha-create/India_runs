@@ -1,0 +1,24 @@
+Role: Senior Machine Learning Engineer
+Department: Core AI Platform
+Location: Remote (US/Canada)
+
+About the Role:
+We are seeking a Senior Machine Learning Engineer to join our Core AI Platform team. In this role, you will design, build, optimize, and scale production machine learning systems that power our real-time recommendation engine. You will collaborate closely with product management and data engineering to translate product requirements into high-performance, robust model architectures.
+
+Required Technical Skills:
+- 5+ years of experience in building and deploying production-grade ML models.
+- Core Languages: Strong proficiency in Python, SQL, and familiarity with C++.
+- Frameworks: PyTorch, Hugging Face transformers, and scikit-learn.
+- Infrastructure & Tools: Experience with Docker, Kubernetes, AWS, and MLflow/Kubeflow for model tracking and lifecycle management.
+- Databases: Experience with Postgres and Vector Databases (e.g., Pinecone, Milvus, Qdrant).
+- Deep understanding of deep learning architectures, transformer models, and semantic search.
+
+Preferred Skills & Experience:
+- Background in natural language processing (NLP) or recommender systems.
+- Experience with LLM orchestration frameworks (e.g., LangChain, LlamaIndex).
+- Open-source contributions to machine learning or deep learning repositories.
+
+Behavioral & Implicit expectations:
+- Startup mindset: You thrive in a fast-paced environment and are comfortable with ambiguity.
+- Ownership: You take end-to-end ownership of the systems you build.
+- Collaboration: Excellent communication skills and a track record of cross-functional collaboration.

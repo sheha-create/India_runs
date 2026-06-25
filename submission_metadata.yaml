@@ -1,0 +1,104 @@
+# Redrob Hackathon — Submission Metadata
+# Generated from submission_metadata_template.yaml
+
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "redrob-ai-ranker"
+
+primary_contact:
+  name: "Team Member"
+  email: "contact@example.com"
+  phone: "+91-XXXXXXXXXX"
+
+team_members:
+  - name: "Team Member"
+    email: "contact@example.com"
+    role: "ML Engineer / Sole Participant"
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/YOUR_USERNAME/redrob"
+# Required. Must be reachable. Private repos OK if you can grant organizer access at Stage 3.
+
+sandbox_link: "https://huggingface.co/spaces/YOUR_USERNAME/redrob-ranker"
+# Required. A working hosted environment where the ranker can be run on a small candidate sample.
+# Acceptable: HuggingFace Spaces, Streamlit Cloud, Replit, Colab, Docker, Binder.
+# The Streamlit app at app/streamlit_app.py is suitable for deployment on Streamlit Cloud.
+
+reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./submission.csv"
+# This command produces submission.csv from candidates.jsonl within 5 minutes on CPU.
+# Pre-computation (embeddings) is a one-time step:
+#   python precompute_embeddings.py
+# The ranking step (rank.py) reads precomputed embeddings and runs in under 5 minutes.
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Windows 11 / Local Machine"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.10+"
+  os: "Windows 11"
+  uses_gpu_for_inference: false        # CPU only — satisfies compute constraint
+  has_network_during_ranking: false    # No API calls during ranking step
+  pre_computation_required: true       # Embeddings are precomputed with precompute_embeddings.py
+  pre_computation_time_minutes: 15     # Approximate runtime for embedding 100K candidates on CPU
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+ai_tools_used:
+  - "Groq"        # Used for LLM reasoning pass (JD parsing, candidate profiling)
+  - "Gemini"      # Used via Antigravity IDE (Gemini-powered agent) for code generation and review
+
+ai_usage_summary: |
+  Used Groq API (llama-3.3-70b-versatile) for the LLM-as-a-judge reasoning pass in the
+  Streamlit demo and main.py pipeline — JD parsing and candidate profiling. The offline
+  rank.py submission script makes NO external API calls; all ranking is deterministic.
+  Gemini (via AI coding assistant) was used for code generation and architectural review.
+  No candidate data is sent to any LLM during the ranking step.
+
+# ============================================================================
+# Approach summary
+# ============================================================================
+methodology_summary: |
+  Hybrid offline ranker combining semantic embeddings with deterministic feature scoring.
+
+  Pre-computation (one-time): All 100K candidates are encoded with
+  sentence-transformers/all-MiniLM-L6-v2 (384-dim, CPU). The JD is embedded at
+  ranking time (< 1 second).
+
+  Ranking (< 5 min CPU, no network):
+  1. Cosine similarity between JD embedding and precomputed candidate embeddings gives
+     a semantic relevance score (weight α=0.40).
+  2. A deterministic feature scorer (weight β=0.60) evaluates:
+     - Title fit: current title classified against JD-specific high/mid/anti-fit groups
+     - YOE: 5-9 years is the target band per JD
+     - Skill overlap: against required skills (Python, embeddings, vector DBs, NLP,
+       ranking/retrieval, RAG) and preferred skills (LoRA, fine-tuning, evaluation frameworks)
+     - Platform availability: recency of last activity, open_to_work_flag, recruiter
+       response rate, notice period, GitHub activity score
+     - Location: India and specifically Pune/Noida/Bangalore/Hyderabad preferred
+     - Consulting-only career penalty: entire career at TCS/Infosys/Wipro/Accenture etc.
+  3. Honeypot detection (hard filter): salary inversion (min > max), career started
+     ≥5 years before education, job duration_months ≫ actual date range. Detected
+     honeypots receive a score of 0.0 and are excluded from top-100.
+  4. Scores are normalized to be non-increasing with rank; ties broken by candidate_id
+     ascending.
+
+  Reasoning is generated deterministically from structured candidate fields (title,
+  YOE, matched skills, company, location, notice period, last-active date). No LLM
+  inference during ranking.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true        # Explicit honeypot detection built into rank.py
+  reproduction_tested: true
