@@ -13,6 +13,16 @@ sys.path.insert(0, str(ROOT))
 # Ensure data directories exist
 (ROOT / "data" / "output").mkdir(parents=True, exist_ok=True)
 
+# Decompress candidates.jsonl.gz if needed
+_jsonl_path = ROOT / "data" / "[PUB] India_runs_data_and_ai_challenge" / \
+    "[PUB] India_runs_data_and_ai_challenge" / "India_runs_data_and_ai_challenge" / "candidates.jsonl"
+_gz_path = Path(str(_jsonl_path) + ".gz")
+if not _jsonl_path.exists() and _gz_path.exists():
+    import gzip
+    with gzip.open(_gz_path, 'rb') as f_in:
+        with open(_jsonl_path, 'wb') as f_out:
+            f_out.write(f_in.read())
+
 import streamlit as st
 
 st.set_page_config(
