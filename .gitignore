@@ -27,6 +27,7 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+__MACOSX/
 
 # Data files (large)
 data/[PUB]*
